@@ -1,0 +1,40 @@
+{
+  "title": "貝西氏症葡萄膜炎（範例）",
+  "cite_short": "Joubert et al. · J Clin Med 2023",
+  "citation_html": "Joubert M, et al. <i>Behçet's Disease Uveitis.</i> J Clin Med 2023;12:3648",
+  "license": "CC BY 4.0",
+  "links": {
+    "DOI": "https://doi.org/10.3390/jcm12113648",
+    "PMC": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10253549/"
+  },
+  "pdf": "src/paper.pdf",
+  "pdf_body": {
+    "header": 0.06,
+    "footer": 0.94,
+    "end_page": null,
+    "stop_at_references": true
+  },
+  "page_images": {
+    "scale": 2.2
+  },
+  "voice": {
+    "engine": "say",
+    "voice": "Meijia",
+    "rate": 205,
+    "command": null,
+    "files_dir": "voice-in"
+  },
+  "video": {
+    "fps": 30,
+    "gap": 0.4,
+    "gap_scene_end": 0.95,
+    "lead": 0.3,
+    "xfade": 0.4,
+    "xfade_scene": 0.55
+  },
+  "disclaimer": "講解稿與版面由 AI 依論文自撰，內容尚未經專業人員審查；請以原文為準。",
+  "publish": {
+    "include_pdf": true,
+    "max_mb": 15
+  }
+}

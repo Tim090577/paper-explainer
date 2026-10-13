@@ -1,0 +1,133 @@
+{
+ "scenes": [
+  {
+   "kick": "期刊導讀 · J Clin Med 2023",
+   "title": "貝西氏症葡萄膜炎",
+   "sub": "Behçet's Disease Uveitis",
+   "rows": [
+    [
+     {
+      "id": "s40",
+      "k": "stat",
+      "n": "40%",
+      "l": "貝西氏症病人<br>會出現葡萄膜炎",
+      "tone": "red",
+      "w": 1
+     },
+     {
+      "id": "s2030",
+      "k": "stat",
+      "n": "20–30",
+      "l": "歲<br>好發年齡",
+      "tone": "blue",
+      "w": 1
+     },
+     {
+      "id": "s5y",
+      "k": "stat",
+      "n": "10–15%",
+      "l": "5 年內<br>失明風險",
+      "tone": "red",
+      "w": 1
+     }
+    ],
+    [
+     {
+      "id": "disc",
+      "k": "card",
+      "h": "本片由 AI 製作",
+      "b": "講解稿與版面依論文自撰，內容尚未經專業人員審查。",
+      "tone": "gray",
+      "w": 1
+     }
+    ]
+   ],
+   "steps": [
+    {
+     "t": "這支影片帶你讀一篇 2023 年的回顧論文。",
+     "a": {
+      "page": 1
+     },
+     "show": [
+      "disc"
+     ]
+    },
+    {
+     "t": "貝西氏症病人約 40% 會出現葡萄膜炎。",
+     "s": "貝西氏症病人，大約百分之四十會出現葡萄膜炎。",
+     "a": "Uveitis in Behçet’s disease (BD) is frequent (40% of cases) and is a major cause of morbidity.",
+     "show": [
+      "s40"
+     ]
+    },
+    {
+     "t": "好發 20 到 30 歲，5 年失明風險 10% 到 15%。",
+     "s": "好發二十到三十歲，五年失明風險百分之十到十五。",
+     "a": [
+      "The age of onset of uveitis is between 20 and 30 years",
+      "risk of blindness at 5 years is 10–15%."
+     ],
+     "show": [
+      "s2030",
+      "s5y"
+     ]
+    }
+   ]
+  },
+  {
+   "kick": "Figure 1",
+   "title": "全身表現一張圖",
+   "rows": [
+    [
+     {
+      "id": "f1",
+      "k": "img",
+      "src": "figs/fig1.png",
+      "cap": "Joubert 2023 Fig. 1（CC BY 4.0）",
+      "w": 2
+     },
+     {
+      "id": "c1",
+      "k": "card",
+      "h": "不只眼睛",
+      "b": "口腔潰瘍、皮膚、關節、血管、神經都可能侵犯。",
+      "tone": "red",
+      "w": 1
+     }
+    ]
+   ],
+   "steps": [
+    {
+     "t": "論文圖一整理了貝西氏症的全身表現。",
+     "a": {
+      "page": 2,
+      "rect": [
+       92,
+       92,
+       504,
+       352
+      ]
+     },
+     "show": [
+      "f1"
+     ]
+    },
+    {
+     "t": "所以問診不能只看眼睛。",
+     "a": {
+      "page": 2,
+      "rect": [
+       92,
+       92,
+       504,
+       352
+      ]
+     },
+     "show": [
+      "c1"
+     ]
+    }
+   ]
+  }
+ ]
+}

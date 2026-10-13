@@ -1,0 +1,27 @@
+{
+  "title": "論文標題（中文）",
+  "cite_short": "First et al. · Journal 2024",
+  "citation_html": "First A, et al. <i>English Title.</i> Journal 2024;12:345",
+  "license": "CC BY 4.0",
+  "links": {
+    "DOI": "https://doi.org/10.xxxx/xxxxx"
+  },
+  "pdf": "src/paper.pdf",
+  "pdf_body": {
+    "header": 0.06,
+    "footer": 0.94,
+    "end_page": null,
+    "stop_at_references": true
+  },
+  "page_images": { "scale": 2.2 },
+  "voice": {
+    "engine": "say",
+    "voice": "Meijia",
+    "rate": 205,
+    "command": null,
+    "files_dir": "voice-in"
+  },
+  "video": { "fps": 30, "gap": 0.40, "gap_scene_end": 0.95, "lead": 0.30, "xfade": 0.40, "xfade_scene": 0.55 },
+  "disclaimer": "講解稿與版面由 AI 依論文自撰，內容尚未經專業人員審查；請以原文為準。",
+  "publish": { "include_pdf": true, "max_mb": 15 }
+}

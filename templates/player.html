@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{{TITLE}}</title>
+<style>
+:root{
+  --bg:#f4f0e8; --panel:#fffdf9; --ink:#1f2a3c; --mute:#6b6457; --line:#e2dacb;
+  --accent:#b4372b; --accent-soft:#f6dcd6; --mark:rgba(255,214,10,.34); --mark-cur:rgba(255,190,0,.62);
+  --hover:rgba(36,92,156,.14); --pdfbg:#d9d3c7; --shadow:0 6px 22px rgba(31,42,60,.12);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#16181d; --panel:#1f232a; --ink:#e9e5dc; --mute:#a59e90; --line:#33383f;
+    --accent:#ef7a6a; --accent-soft:#3b2622; --mark:rgba(255,214,10,.30); --mark-cur:rgba(255,190,0,.55);
+    --hover:rgba(120,170,230,.18); --pdfbg:#0f1114; --shadow:0 6px 22px rgba(0,0,0,.45);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#16181d; --panel:#1f232a; --ink:#e9e5dc; --mute:#a59e90; --line:#33383f;
+  --accent:#ef7a6a; --accent-soft:#3b2622; --mark:rgba(255,214,10,.30); --mark-cur:rgba(255,190,0,.55);
+  --hover:rgba(120,170,230,.18); --pdfbg:#0f1114; --shadow:0 6px 22px rgba(0,0,0,.45);
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{background:var(--bg);color:var(--ink);font:15px/1.55 -apple-system,"Helvetica Neue","PingFang TC","Noto Sans TC",sans-serif}
+a{color:var(--accent)}
+button{font:inherit;color:inherit}
+.app{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(340px,1fr);height:100dvh}
+.left{overflow:auto;padding:18px 22px 40px;border-right:1px solid var(--line)}
+header h1{font-size:22px;margin:0;letter-spacing:.01em}
+header .meta{color:var(--mute);font-size:13px;margin-top:4px}
+header .meta a{margin-right:10px}
+.vid{margin-top:14px;border-radius:12px;overflow:hidden;background:#000;box-shadow:var(--shadow)}
+video{display:block;width:100%;aspect-ratio:16/9;background:#000}
+.now{margin-top:14px;background:var(--panel);border:1px solid var(--line);border-left:6px solid var(--accent);border-radius:12px;padding:14px 16px}
+.now .k{font-size:12.5px;color:var(--mute);display:flex;justify-content:space-between;gap:8px;align-items:center}
+.now .t{font-size:19px;line-height:1.6;margin-top:6px;min-height:3.2em}
+.pgbtn{border:1px solid var(--line);background:var(--bg);border-radius:999px;padding:2px 10px;cursor:pointer;font-size:12.5px;white-space:nowrap}
+.pgbtn:hover{border-color:var(--accent);color:var(--accent)}
+.navrow{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.navrow button{border:1px solid var(--line);background:var(--panel);border-radius:8px;padding:6px 12px;cursor:pointer}
+.navrow button:hover{border-color:var(--accent)}
+.navrow .hint{color:var(--mute);font-size:12.5px;align-self:center}
+h2{font-size:14px;color:var(--mute);margin:22px 0 8px;font-weight:600;letter-spacing:.04em}
+.chap{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:6px}
+.chap button{width:100%;text-align:left;display:flex;gap:10px;align-items:baseline;background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:7px 10px;cursor:pointer}
+.chap button:hover{border-color:var(--accent)}
+.chap button.on{background:var(--accent-soft);border-color:var(--accent)}
+.chap .tm{font-variant-numeric:tabular-nums;color:var(--mute);font-size:12.5px;min-width:38px}
+.chap .ti{font-size:13.5px;line-height:1.35}
+.note{font-size:12.5px;color:var(--mute);margin-top:18px;line-height:1.7}
+.right{position:relative;display:flex;flex-direction:column;min-height:0;background:var(--pdfbg)}
+.bar{display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--panel);border-bottom:1px solid var(--line);font-size:13px}
+.bar .sp{flex:1}
+.bar button{border:1px solid var(--line);background:var(--bg);border-radius:7px;padding:3px 9px;cursor:pointer}
+.sw{display:flex;align-items:center;gap:6px;cursor:pointer;user-select:none}
+.sw input{accent-color:var(--accent)}
+#pane{flex:1;overflow:auto;padding:14px 0 50vh;scroll-behavior:auto}
+.pages{width:calc(100% * var(--z,1) - 28px);margin:0 auto}
+.page{position:relative;margin:0 auto 14px;background:#fff;box-shadow:var(--shadow);border-radius:2px}
+.page img{display:block;width:100%;height:auto}
+.page .no{position:absolute;right:8px;top:6px;font-size:11px;color:#8a7f6e;background:rgba(255,255,255,.85);padding:1px 6px;border-radius:4px}
+.hl{position:absolute;border-radius:2px;cursor:pointer;transition:background-color .25s}
+.hl:hover,.hl.hov{background:var(--hover)}
+.hl.on{background:var(--mark)}
+.hl.cur{background:var(--mark-cur);box-shadow:-5px 0 0 var(--accent)}
+.back{position:absolute;right:16px;bottom:16px;display:none;background:var(--accent);color:#fff;border:0;border-radius:999px;padding:8px 14px;box-shadow:var(--shadow);cursor:pointer;font-size:13px}
+.back.show{display:block}
+.tip{position:fixed;pointer-events:none;background:var(--ink);color:var(--bg);font-size:12px;padding:4px 8px;border-radius:6px;opacity:0;transition:opacity .12s;z-index:9;max-width:260px}
+.tip.show{opacity:.95}
+details.cd>summary{cursor:pointer;list-style:none}
+details.cd>summary::-webkit-details-marker{display:none}
+details.cd>summary h2:after{content:" ▾"}
+details.cd:not([open])>summary h2:after{content:" ▸"}
+@media (max-width:900px){
+  .app{grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr);height:100dvh}
+  .left{border-right:0;border-bottom:1px solid var(--line);padding:8px 16px 8px;overflow:visible}
+  header h1{font-size:16px}
+  header .meta{font-size:11.5px}
+  .vid{margin-top:8px}
+  .now{margin-top:8px;padding:8px 12px}
+  .now .t{font-size:15px;min-height:0}
+  .navrow{margin-top:6px}
+  .navrow .hint,.note{display:none}
+  .navrow button{padding:4px 10px}
+  h2{margin:8px 0 4px}
+  .chap{grid-template-columns:1fr;max-height:28dvh;overflow:auto}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <section class="left">
+    <header>
+      <h1>{{TITLE}}｜講解影片 × 原文同步</h1>
+      <div class="meta">{{CITATION}}<br>
+        {{LINKS}}</div>
+    </header>
+    <div class="vid"><video id="v" controls preload="metadata" playsinline src="video/video.mp4">
+      <track kind="captions" srclang="zh-Hant" label="中文字幕" src="video/subtitles.vtt">
+    </video></div>
+    <div class="now">
+      <div class="k"><span id="nk">—</span><button class="pgbtn" id="npg" title="把原文捲到這一句">原文 p.–</button></div>
+      <div class="t" id="nt">按下播放，右邊的原文會跟著講解捲動並標出對應段落。</div>
+    </div>
+    <div class="navrow">
+      <button id="prev">← 上一句</button><button id="next">下一句 →</button>
+      <span class="hint">空白鍵播放／暫停 · ←→ 換句 · F 切換跟隨 · 點原文段落可跳到講解</span>
+    </div>
+    <details class="cd" id="chapd" open><summary><h2>章節</h2></summary>
+    <ul class="chap" id="chap"></ul></details>
+    <p class="note">{{DISCLAIMER}}<br>原文段落對應是把講稿引句逐字比對到 PDF 的行座標；黃底是這一句的範圍，橘底那一行會隨講解進度往下走。</p>
+  </section>
+  <section class="right">
+    <div class="bar">
+      <label class="sw"><input type="checkbox" id="follow" checked> 跟隨播放</label>
+      <span class="sp"></span>
+      <span id="pgnow">p.1</span>
+      <button id="zo" title="縮小">−</button><button id="zi" title="放大">＋</button>
+    </div>
+    <div id="pane"><div class="pages" id="pages"></div></div>
+    <button class="back" id="back">↩ 回到講解位置</button>
+  </section>
+</div>
+<div class="tip" id="tip"></div>
+<script>
+(async function () {
+  if (matchMedia('(max-width:900px)').matches) document.getElementById('chapd').open = false;
+  /*VTT_BLOB*/
+  const D = await (await fetch('data/cues.json')).json();
+  const SC = D.scale || 2.2;
+  const cues = D.cues, scenes = D.scenes;
+  const $ = (id) => document.getElementById(id);
+  const v = $('v'), pane = $('pane'), pagesEl = $('pages'), tip = $('tip');
+  const fmt = (t) => `${Math.floor(t / 60)}:${String(Math.floor(t % 60)).padStart(2, '0')}`;
+
+  // ── 頁面與標記框
+  const pageEls = {};
+  const rectsOf = cues.map(() => []);          // cue → [div]
+  for (const p of D.pages) {
+    const d = document.createElement('div');
+    d.className = 'page'; d.dataset.n = p.n;
+    d.innerHTML = `<img src="${p.src}" alt="原文第 ${p.n} 頁" loading="${p.n <= 3 ? 'eager' : 'lazy'}" width="${Math.round(p.w * SC)}" height="${Math.round(p.h * SC)}"><span class="no">p.${p.n}</span>`;
+    pagesEl.appendChild(d); pageEls[p.n] = { el: d, w: p.w, h: p.h };
+  }
+  cues.forEach((c, i) => {
+    for (const a of c.a) {
+      const pg = pageEls[a.page]; if (!pg) continue;
+      for (const r of a.rects) {
+        const h = document.createElement('div');
+        const pad = 1.6;
+        h.className = 'hl'; h.dataset.i = i;
+        h.style.left = ((r[0] - pad) / pg.w * 100) + '%';
+        h.style.top = ((r[1] - pad) / pg.h * 100) + '%';
+        h.style.width = ((r[2] - r[0] + 2 * pad) / pg.w * 100) + '%';
+        h.style.height = ((r[3] - r[1] + 2 * pad) / pg.h * 100) + '%';
+        pg.el.appendChild(h); rectsOf[i].push(h);
+      }
+    }
+  });
+
+  // ── 章節
+  scenes.forEach((s, i) => {
+    const li = document.createElement('li');
+    li.innerHTML = `<button data-s="${i}"><span class="tm">${fmt(s.t0)}</span><span class="ti">${String(i + 1).padStart(2, '0')}. ${s.title}</span></button>`;
+    $('chap').appendChild(li);
+  });
+  $('chap').addEventListener('click', (e) => {
+    const b = e.target.closest('button'); if (!b) return;
+    seek(scenes[+b.dataset.s].t0 + 0.02, true);
+  });
+
+  // ── 狀態
+  let cur = -1, curLine = -1, follow = true;
+  const find = (t) => {               // 二分搜尋目前這一句
+    let lo = 0, hi = cues.length - 1, ans = 0;
+    while (lo <= hi) { const m = (lo + hi) >> 1; if (cues[m].t0 <= t) { ans = m; lo = m + 1; } else hi = m - 1; }
+    return ans;
+  };
+  function seek(t, play) { v.currentTime = t; follow = true; $('follow').checked = true; $('back').classList.remove('show'); tick(true); if (play) v.play().catch(() => {}); }
+
+  function scrollToEl(el, force) {
+    const pr = pane.getBoundingClientRect(), er = el.getBoundingClientRect();
+    const y = er.top - pr.top;
+    if (!force && y > pr.height * 0.18 && y < pr.height * 0.62) return;   // 已在舒適區就不動，避免一直抖
+    const target = pane.scrollTop + y - pr.height * 0.30;
+    smooth(target);
+  }
+  let anim = null;
+  function smooth(target) {           // 自己做平滑捲動，才能分辨「程式捲動」與「使用者捲動」
+    cancelAnimationFrame(anim);
+    const start = pane.scrollTop, dist = target - start, t0 = performance.now(), dur = 520;
+    const step = (now) => {
+      const k = Math.min(1, (now - t0) / dur), e = 1 - Math.pow(1 - k, 3);
+      pane.scrollTop = start + dist * e;
+      if (k < 1) anim = requestAnimationFrame(step);
+    };
+    anim = requestAnimationFrame(step);
+  }
+
+  function tick(force) {
+    const t = v.currentTime, i = find(t), c = cues[i];
+    const changed = i !== cur;
+    if (changed) {
+      if (cur >= 0) rectsOf[cur].forEach((h) => h.classList.remove('on', 'cur'));
+      rectsOf[i].forEach((h) => h.classList.add('on'));
+      cur = i; curLine = -1;
+      const s = scenes[c.scene];
+      $('nk').textContent = `${String(c.scene + 1).padStart(2, '0')} · ${s.title}　（${i + 1}/${cues.length}）`;
+      $('nt').textContent = c.text;
+      const pgs = [...new Set(c.a.map((a) => a.page))];
+      $('npg').textContent = '原文 p.' + pgs.join('–');
+      document.querySelectorAll('.chap button').forEach((b) => b.classList.toggle('on', +b.dataset.s === c.scene));
+    }
+    // 橘色那一行跟著這一句的播放進度往下走
+    const lines = rectsOf[i];
+    if (!lines.length && c.a.length && (changed || force) && follow) {
+      const pg = pageEls[c.a[0].page]; if (pg) { scrollToEl(pg.el, true); $('pgnow').textContent = `p.${c.a[0].page} / ${D.pages.length}`; }
+    }
+    if (lines.length) {
+      const prog = Math.min(0.999, Math.max(0, (t - c.t0) / (c.t1 - c.t0)));
+      const li = Math.floor(prog * lines.length);
+      if (li !== curLine || force) {
+        if (curLine >= 0 && lines[curLine]) lines[curLine].classList.remove('cur');
+        lines[li].classList.add('cur'); curLine = li;
+        if (follow) scrollToEl(lines[li], force || li === 0);
+        const pg = lines[li].parentElement.dataset.n; $('pgnow').textContent = `p.${pg} / ${D.pages.length}`;
+      }
+    }
+  }
+  v.addEventListener('timeupdate', () => tick(false));
+  v.addEventListener('seeked', () => tick(true));
+  (function loop() { if (!v.paused) tick(false); requestAnimationFrame(loop); })();
+
+  // ── 使用者自己捲原文 → 暫停跟隨
+  const stopFollow = () => { if (!follow) return; follow = false; $('follow').checked = false; $('back').classList.add('show'); cancelAnimationFrame(anim); };
+  ['wheel', 'touchmove'].forEach((ev) => pane.addEventListener(ev, stopFollow, { passive: true }));
+  pane.addEventListener('keydown', stopFollow);
+  $('back').onclick = () => { follow = true; $('follow').checked = true; $('back').classList.remove('show'); curLine = -1; tick(true); };
+  $('follow').onchange = (e) => { follow = e.target.checked; $('back').classList.toggle('show', !follow); if (follow) { curLine = -1; tick(true); } };
+  $('npg').onclick = () => { follow = true; $('follow').checked = true; $('back').classList.remove('show'); curLine = -1; tick(true); };
+
+  // ── 點原文 → 跳到講解；滑過 → 提示
+  const hov = (i, on) => rectsOf[i].forEach((h) => h.classList.toggle('hov', on));
+  let hovI = -1;
+  pagesEl.addEventListener('mousemove', (e) => {
+    const h = e.target.closest('.hl');
+    const i = h ? +h.dataset.i : -1;
+    if (i !== hovI) { if (hovI >= 0) hov(hovI, false); if (i >= 0) hov(i, true); hovI = i; }
+    if (i >= 0) {
+      const n = candidates(e).length;
+      tip.textContent = `▶ ${fmt(cues[i].t0)}　${cues[i].text.slice(0, 26)}…` + (n > 1 ? `（此處共 ${n} 句講解）` : '');
+      tip.style.left = Math.min(e.clientX + 14, innerWidth - 270) + 'px'; tip.style.top = (e.clientY + 16) + 'px';
+      tip.classList.add('show');
+    } else tip.classList.remove('show');
+  });
+  pagesEl.addEventListener('mouseleave', () => { if (hovI >= 0) hov(hovI, false); hovI = -1; tip.classList.remove('show'); });
+  function candidates(e) {
+    return [...new Set(document.elementsFromPoint(e.clientX, e.clientY).filter((x) => x.classList && x.classList.contains('hl')).map((x) => +x.dataset.i))].sort((a, b) => a - b);
+  }
+  pagesEl.addEventListener('click', (e) => {
+    const c = candidates(e); if (!c.length) return;
+    // 同一處有好幾句講解：連點會依序輪到下一句
+    const nxt = c.find((i) => i > cur && c.includes(cur)) ?? c[0];
+    seek(cues[nxt].t0 + 0.02, true);
+  });
+
+  // ── 按鍵與按鈕
+  const go = (d) => seek(cues[Math.max(0, Math.min(cues.length - 1, cur + d))].t0 + 0.02, !v.paused);
+  $('prev').onclick = () => go(-1); $('next').onclick = () => go(1);
+  document.addEventListener('keydown', (e) => {
+    if (e.target.closest('input,textarea')) return;
+    if (e.key === ' ' && e.target !== v) { e.preventDefault(); v.paused ? v.play() : v.pause(); }
+    else if (e.key === 'ArrowRight' && e.target !== v) { e.preventDefault(); go(1); }
+    else if (e.key === 'ArrowLeft' && e.target !== v) { e.preventDefault(); go(-1); }
+    else if (e.key === 'f' || e.key === 'F') { $('follow').click(); }
+  });
+  let z = 1;
+  const setZ = (nz) => { const keep = pane.scrollTop / pane.scrollHeight; z = Math.max(0.8, Math.min(2.2, nz)); pagesEl.style.setProperty('--z', z); pane.scrollTop = keep * pane.scrollHeight; };
+  $('zi').onclick = () => setZ(z + 0.2); $('zo').onclick = () => setZ(z - 0.2);
+
+  // ── #t=秒數 深連結
+  const m = location.hash.match(/t=([\d.]+)/);
+  if (m) { if (v.readyState >= 1) seek(+m[1], false); else v.addEventListener('loadedmetadata', () => seek(+m[1], false), { once: true }); }
+  tick(true);
+})();
+</script>
+</body>
+</html>

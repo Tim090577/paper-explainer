@@ -1,0 +1,8 @@
+__pycache__/
+*.pyc
+.DS_Store
+# 不要把論文 PDF、產出物或個人專案提交上來
+*.pdf
+demo/
+**/video/
+**/publish/
