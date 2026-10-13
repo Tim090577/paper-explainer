@@ -35,7 +35,8 @@ python3 $PE doctor                         # 先檢查依賴；缺 PyMuPDF 就�
 ## 流程
 
 1. **建專案**：`python3 $PE init <專案> --pdf 論文.pdf`，然後填 `paper.json`（title、cite_short、citation_html、license、links）。
-2. **讀原文**：`python3 $PE text <專案>` → `src/text.md`。先通讀全文，列出論文的問題、方法、主要結果、限制，再分幕。引句一律從 text.md **原樣複製**。
+2. **先讀生產原則** [references/style-principles.md](references/style-principles.md)（簡潔、一幕一重點、焦點以外變淡、不要 AI 味的視覺與念稿）。
+   **讀原文**：`python3 $PE text <專案>` → `src/text.md`。先通讀全文，列出論文的問題、方法、主要結果、限制，再分幕。引句一律從 text.md **原樣複製**。
 3. **寫講稿** `script.py`（或 `script.json`，兩者擇一，JSON 優先）：格式與寫作規則見 [references/script-format.md](references/script-format.md)。重點：一句一狀態、`t` 給字幕、`s` 給念稿、`a` 給原文錨點。圖表要放進投影片時，用 `python3 $PE crop <專案> 頁 x0 y0 x1 y1 figs/figN.png`（座標見 text.md 的「圖片區塊」）。
    寫完先跑 `python3 $PE check <專案>` 檢查結構（元素 id、show、錨點格式）。
 4. **對錨點**：`python3 $PE anchors <專案>`。有任何一句找不到就會停下來並列出是哪一句——修引句，不要刪錨點。
@@ -44,7 +45,7 @@ python3 $PE doctor                         # 先檢查依賴；缺 PyMuPDF 就�
 7. **（選用）回聽檢查**：`python3 $PE check-voice <專案>`（需要 whisper-cli 與 `PE_WHISPER_MODEL`）。
 8. **合成影片**：`python3 $PE video <專案>`。
 9. **播放頁**：`python3 $PE pages <專案>` → `python3 $PE page <專案>` → `python3 $PE serve <專案> 8790` 開 http://localhost:8790/ 實際播一遍。**不要用 `python3 -m http.server`**：它不支援 Range，影片不能拖曳跳轉。
-10. **品質檢查**：照 [references/qa-checklist.md](references/qa-checklist.md) 一項項過。
+10. **品質檢查**：照 [references/qa-checklist.md](references/qa-checklist.md) 一項項過，最後用 style-principles.md 的「交付前自檢」再看一次。
 11. **（使用者同意後）發佈**：`python3 $PE publish <專案>` 產生 `publish/` 靜態網站；要上傳 claude.ai Artifact 時加 `--artifact`（單檔上限 15 MB，影片會壓成 720p）。
 
 一次跑完 4–9：`python3 $PE all <專案>`。改了講稿只要從 anchors 重跑；只改配音就從 voice 重跑。

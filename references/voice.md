@@ -32,6 +32,10 @@ python3 $PE export <專案>          # 產生 narration.tsv 與 voice-in/README.
 python3 $PE voice <專案> && python3 $PE video <專案> && python3 $PE page <專案>
 ```
 
+## 後製（預設開啟）
+
+`"post": "warm"`（預設）會對每句套溫和後製：去低頻雜音、去齒音、切刺耳高頻、補一點低頻暖度、輕壓縮；合成影片時再把整片音量統一到約 −18.5 LUFS。真人錄音也適用。不想要就設 `"post": "none"`。
+
 ## 讓配音聽起來自然
 
 - `s`（念稿）才是 TTS 看到的文字：數字、百分比、單位、縮寫都要改成念法（見 script-format.md）。

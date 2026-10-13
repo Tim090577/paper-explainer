@@ -10,14 +10,11 @@ TONES = {
 
 CSS = """
 *{margin:0;padding:0;box-sizing:border-box}
-body{width:1920px;height:1080px;overflow:hidden;background:#f6f2ea;color:#1f2a3c;
- font-family:'PingFang TC','Noto Sans TC','Heiti TC','Microsoft JhengHei','Helvetica Neue',sans-serif;position:relative}
-body:before{content:"";position:absolute;inset:0;background:
- radial-gradient(1200px 600px at 100% 0%,rgba(180,55,43,.07),transparent 60%),
- radial-gradient(900px 600px at 0% 100%,rgba(36,92,156,.06),transparent 60%)}
+body{width:1920px;height:1080px;overflow:hidden;background:#f5f0e6;color:#1f2a3c;
+ font-family:'PingFang TC','Noto Sans TC','Heiti TC','Microsoft JhengHei',sans-serif;position:relative}
 .head{position:absolute;left:80px;right:80px;top:56px;display:flex;justify-content:space-between;align-items:flex-start;gap:40px}
 .kick{font-size:28px;letter-spacing:.06em;color:#8a7f6e;font-weight:600}
-h1{font-size:64px;font-weight:700;line-height:1.15;margin-top:8px;letter-spacing:.01em}
+h1{font-size:66px;font-weight:700;line-height:1.15;margin-top:8px;letter-spacing:.02em;font-family:'Songti TC','Noto Serif TC','Source Han Serif TC',serif}
 h1 small{display:block;font-size:32px;font-weight:500;color:#5d6470;margin-top:10px;font-style:italic}
 .meta{text-align:right;font-size:24px;color:#8a7f6e;line-height:1.6;white-space:nowrap}
 .meta b{font-size:40px;color:#1f2a3c;font-weight:700;font-variant-numeric:tabular-nums}
@@ -26,19 +23,19 @@ h1 small{display:block;font-size:32px;font-weight:500;color:#5d6470;margin-top:1
 .stage.tall{top:236px;bottom:120px}
 .row{display:flex;gap:26px;align-items:stretch}
 .hid{opacity:0}
-.card{background:var(--bg);border:2px solid #e3dccf;border-left:12px solid var(--c);border-radius:18px;padding:24px 32px;flex:var(--w) 1 0;min-width:0}
+.card{background:var(--bg);border-radius:10px;padding:26px 34px;flex:var(--w) 1 0;min-width:0}
 .card h3{font-size:40px;font-weight:700;color:var(--c);line-height:1.25}
 .card p{font-size:32px;line-height:1.45;margin-top:8px;color:#26303f}
 .card p b,.note b{color:var(--c)}
-.focus{box-shadow:0 0 0 4px var(--c),0 18px 40px rgba(31,42,60,.18);border-color:var(--c)}
-.stat{flex:var(--w) 1 0;text-align:center;background:#fff;border:2px solid #e3dccf;border-radius:18px;padding:26px 18px;display:flex;flex-direction:column;justify-content:center}
+.dim{opacity:.38}
+.stat{flex:var(--w) 1 0;text-align:center;background:#fffdf8;border-radius:10px;padding:26px 18px;display:flex;flex-direction:column;justify-content:center}
 .stat .n{font-size:100px;font-weight:800;color:var(--c);line-height:1;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
 .stat .l{font-size:32px;line-height:1.35;margin-top:14px;color:#3a4352}
 .chip{flex:1 1 0;white-space:nowrap;text-align:center;font-size:50px;font-weight:800;color:var(--c);background:var(--bg);border:3px solid var(--c);border-radius:999px;padding:22px 10px}
 .arrow{flex:0 0 auto;align-self:center;font-size:64px;color:#9a8f7c;font-weight:700}
-.note{flex:1 1 0;background:#fff6dd;border:2px dashed #c99a2e;border-radius:18px;padding:22px 30px;font-size:34px;line-height:1.45;color:#5a3d00;display:flex;align-items:center;gap:18px}
-.note:before{content:"⚠";font-size:48px}
-.group{flex:var(--w) 1 0;background:#fff;border:2px solid #e3dccf;border-radius:18px;padding:24px 34px;display:flex;flex-direction:column;gap:18px;justify-content:center}
+.note{flex:1 1 0;background:#f6ead2;border-radius:10px;padding:22px 30px;font-size:34px;line-height:1.45;color:#5a3d00;display:flex;align-items:baseline;gap:22px}
+.note:before{content:"注意";flex:0 0 auto;font-size:26px;font-weight:700;letter-spacing:.2em;color:#a36a00}
+.group{flex:var(--w) 1 0;background:#fffdf8;border-radius:10px;padding:24px 34px;display:flex;flex-direction:column;gap:18px;justify-content:center}
 .group>h4{font-size:34px;color:#5d6470;font-weight:700}
 .stack{flex:var(--w) 1 0;display:flex;flex-direction:column;gap:20px;min-width:0}
 .stack>.card{flex:1 1 auto}
@@ -54,14 +51,13 @@ h1 small{display:block;font-size:32px;font-weight:500;color:#5d6470;margin-top:1
 .pts .bx i.o{background:transparent;border:3px dashed #d8cfbf}
 .pts .v{width:120px;font-size:40px;font-weight:800;color:var(--c);text-align:right}
 .bar.focus,.pts.focus{background:var(--bg)}
-.quiz{flex:1 1 0;background:#fff;border:2px solid #e3dccf;border-radius:18px;padding:24px 30px;display:grid;grid-template-columns:1fr 132px;gap:6px 24px;align-items:center}
+.quiz{flex:1 1 0;background:#fffdf8;border-radius:10px;padding:24px 30px;display:grid;grid-template-columns:1fr 132px;gap:6px 24px;align-items:center}
 .quiz .src{grid-column:1/3;font-size:28px;color:#8a7f6e;font-weight:600}
 .quiz .stem{font-size:36px;font-weight:700;line-height:1.35}
 .quiz .ans{grid-row:2/4;grid-column:2;width:132px;height:132px;border-radius:50%;background:#b4372b;color:#fff;font-size:60px;font-weight:800;display:flex;align-items:center;justify-content:center}
 .quiz .why{font-size:31px;line-height:1.45;color:#26303f}
 .quiz .why b{color:#b4372b}
-.quiz.focus{box-shadow:0 0 0 4px #b4372b,0 18px 40px rgba(31,42,60,.18)}
-.fig{flex:var(--w) 1 0;min-width:0;background:#fff;border:2px solid #e3dccf;border-radius:18px;padding:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px}
+.fig{flex:var(--w) 1 0;min-width:0;background:#fff;border-radius:10px;padding:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px}
 .fig img{max-width:100%;max-height:520px;object-fit:contain}
 .fig figcaption{font-size:24px;color:#6b6457}
 .svg{flex:var(--w) 1 0;display:flex;align-items:center;justify-content:center}
@@ -77,7 +73,8 @@ def tone_vars(t, w=1):
 def render_el(el, vis, foc, proj):
     k, i = el["k"], el.get("id", "")
     shown = i in vis
-    cls = ("" if shown else " hid") + (" focus" if i in foc else "")
+    # 焦點以外、已出現的元素變淡；focus 為空（例如整幕總結）時全部保持清楚
+    cls = (" hid" if not shown else (" focus" if i in foc else (" dim" if foc and i else "")))
     if k == "card":
         body = f"<p>{el['b']}</p>" if el.get("b") else ""
         return f'<div class="card{cls}" {tone_vars(el.get("tone", "ink"), el.get("w", 1))}><h3>{el["h"]}</h3>{body}</div>'

@@ -22,7 +22,8 @@
     "voice": "Meijia",
     "rate": 205,
     "command": null,
-    "files_dir": "voice-in"
+    "files_dir": "voice-in",
+    "post": "warm"
   },
   "video": {
     "fps": 30,

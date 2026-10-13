@@ -43,7 +43,7 @@ DEFAULT_CFG = {
     "pdf": "src/paper.pdf",
     "pdf_body": {"header": 0.06, "footer": 0.94, "end_page": None, "stop_at_references": True},
     "page_images": {"scale": 2.2},
-    "voice": {"engine": "say", "voice": "Meijia", "rate": 205, "command": None, "files_dir": "voice-in"},
+    "voice": {"engine": "say", "voice": "Meijia", "rate": 205, "command": None, "files_dir": "voice-in", "post": "warm"},
     "video": {"fps": 30, "gap": 0.40, "gap_scene_end": 0.95, "lead": 0.30, "xfade": 0.40, "xfade_scene": 0.55},
     "disclaimer": "講解稿與版面由 AI 依論文自撰，內容尚未經專業人員審查；請以原文為準。",
     "publish": {"include_pdf": True, "max_mb": 15},
@@ -329,6 +329,15 @@ def synth(p, st, raw):
     die(f"未知的 voice.engine：{eng}（say／edge／command／files／none）")
 
 
+# 溫和後製（取自 exam-explainer-video 的護耳鏈，去掉降調）：去低頻、去齒音、切刺耳高頻、補一點暖、輕壓縮
+POST = {
+    "none": "",
+    "warm": ("highpass=f=60,deesser=i=0.5:m=0.5:f=0.45,lowpass=f=9200,"
+             "equalizer=f=150:t=q:w=1:g=2,equalizer=f=5000:t=q:w=1.2:g=-3,"
+             "acompressor=threshold=-22dB:ratio=2:attack=5:release=80,"),
+}
+
+
 def cmd_voice(p, only=None):
     vc = p.cfg["video"]
     fps = vc["fps"]
@@ -348,8 +357,9 @@ def cmd_voice(p, only=None):
         tail = vc["gap_scene_end"] if st["last"] else vc["gap"]
         d = lead + dur(src) + tail
         d = round(d * fps + 0.4999) / fps           # 對齊影格邊界，影音才不會累積漂移
+        post = POST.get(p.cfg["voice"].get("post", "warm"), "")
         run([tool("ffmpeg"), "-loglevel", "error", "-y", "-i", str(src), "-af",
-             f"adelay={int(lead * 1000)}:all=1,apad,atrim=0:{d:.6f},aresample=44100", "-ac", "2",
+             f"{post}adelay={int(lead * 1000)}:all=1,apad,atrim=0:{d:.6f},aresample=44100", "-ac", "2",
              str(ad / f"slide_{n:02d}.wav")])
         print(f"{n:02d} {d:6.2f}s  {st['t'][:30]}")
 
@@ -426,8 +436,10 @@ def cmd_video(p):
     run([ff, "-loglevel", "error", "-y", "-f", "concat", "-safe", "0", "-i", str(p.tmp / "concat_a.txt"),
          "-c", "pcm_s16le", str(p.tmp / "audio_full.wav")])
     out = p.vid / "video.mp4"
+    af = (["-af", "loudnorm=I=-18.5:TP=-1.8:LRA=9,alimiter=limit=0.9,aresample=44100"]
+          if p.cfg["voice"].get("post", "warm") != "none" else [])   # 全片統一音量
     run([ff, "-loglevel", "error", "-y", "-i", str(p.tmp / "video_only.mp4"), "-i", str(p.tmp / "audio_full.wav"),
-         "-map", "0:v", "-map", "1:a", "-c:v", "copy", "-c:a", "aac", "-b:a", "192k",
+         "-map", "0:v", "-map", "1:a", *af, "-c:v", "copy", "-c:a", "aac", "-b:a", "192k",
          "-movflags", "+faststart", "-shortest", str(out)])
     real = [round(dur(c) * fps) / fps for c in clips]   # 時間軸用實際片長，不用推算
     t, timeline = 0.0, []

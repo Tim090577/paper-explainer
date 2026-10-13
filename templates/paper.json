@@ -13,15 +13,28 @@
     "end_page": null,
     "stop_at_references": true
   },
-  "page_images": { "scale": 2.2 },
+  "page_images": {
+    "scale": 2.2
+  },
   "voice": {
     "engine": "say",
     "voice": "Meijia",
     "rate": 205,
     "command": null,
-    "files_dir": "voice-in"
+    "files_dir": "voice-in",
+    "post": "warm"
   },
-  "video": { "fps": 30, "gap": 0.40, "gap_scene_end": 0.95, "lead": 0.30, "xfade": 0.40, "xfade_scene": 0.55 },
+  "video": {
+    "fps": 30,
+    "gap": 0.4,
+    "gap_scene_end": 0.95,
+    "lead": 0.3,
+    "xfade": 0.4,
+    "xfade_scene": 0.55
+  },
   "disclaimer": "講解稿與版面由 AI 依論文自撰，內容尚未經專業人員審查；請以原文為準。",
-  "publish": { "include_pdf": true, "max_mb": 15 }
+  "publish": {
+    "include_pdf": true,
+    "max_mb": 15
+  }
 }

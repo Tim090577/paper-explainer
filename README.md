@@ -50,6 +50,15 @@ Gemini CLI 會讀 [`GEMINI.md`](GEMINI.md)、Codex 會讀 [`AGENTS.md`](AGENTS.m
 
 ---
 
+## 生產原則：簡潔、重點清楚、沒有 AI 味
+
+[`references/style-principles.md`](references/style-principles.md) 濃縮自 huashu-design（反 AI slop）、video-production（教學與念稿風格）與 exam-explainer-video（配音後製）：
+
+- **一幕一個重點，一句一件事**；先講結論再給數字，數字只留會推進故事的
+- **焦點以外的元素自動變淡**，觀眾永遠知道現在在看哪裡
+- **不要 AI 味的視覺**：emoji、左色條卡片、漸層背景、自畫插圖、假數據
+- **念稿寫給耳朵**：數字寫念法、不用括號、一句 15–35 字；配音預設套溫和後製
+
 ## 需要什麼
 
 | 項目 | 說明 |
